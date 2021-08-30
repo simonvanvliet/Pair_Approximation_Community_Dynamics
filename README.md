@@ -15,7 +15,8 @@ Contains Matlab scripts (.m) and data-files (.mat) to reproduce all main-text fi
   * run code to recreate figure X
 
 ### 3D_Biophysics_Model
-Contains Matlab script to solve individual based biophysical model on 2D and 3D grid and compare the interaction range
+Contains Matlab script to solve individual based biophysical model on 2D and 3D grid and compare the interaction range.
+
 Run code in following order to reproduce Fig S1
 1. InteractionRange_2Dvs3D_RunModel.m
 2. InteractionRange_2Dvs3D_ProcessModel.m
