@@ -22,4 +22,4 @@ Run code in following order to reproduce Fig S1
 2. InteractionRange_2Dvs3D_ProcessModel.m
 3. InteractionRange_2Dvs3D_PlotModel.m 
 
-The remaining code ("SteadyState_3D_*.m") implements the 3D boundary-value problem that is used to find steady-state growth in 3D grid of cells
+The remaining code ("SteadyState_3D_*.m") implements the 3D boundary-value problem that is used to find steady-state growth in 3D grid of cells. This code is called by the functions above, and no direct user interaction is required.
