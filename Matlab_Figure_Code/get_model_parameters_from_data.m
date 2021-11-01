@@ -74,8 +74,8 @@ IRDP = mean(IRDPVec);
 se_IRDP = std(IRDPVec) / sqrt(numIRMeas);
 
 %report parameters
-fprintf('IR DT = %.2g +/- %.2g um\n', IRDT, se_IRDT)
-fprintf('IR DP = %.2g +/- %.2g um\n', IRDP, se_IRDP)
+% fprintf('IR DT = %.2g +/- %.2g um\n', IRDT, se_IRDT)
+% fprintf('IR DP = %.2g +/- %.2g um\n', IRDP, se_IRDP)
 
 %calc 95% CI
 ci_IRP = IRDP + tinv([0.025,0.975], numIRMeas-1) * se_IRDP;
@@ -129,8 +129,8 @@ muMaxT = muMax(2);
 se_muMaxP = se_muMax(1);
 se_muMaxT = se_muMax(2);
 
-fprintf('mu_Max DT = %.2g +/- %.2g 1/h\n', muMaxT, se_muMaxT)
-fprintf('mu_Max DP = %.2g +/- %.2g 1/h\n', muMaxP, se_muMaxP)
+% fprintf('mu_Max DT = %.2g +/- %.2g 1/h\n', muMaxT, se_muMaxT)
+% fprintf('mu_Max DP = %.2g +/- %.2g 1/h\n', muMaxP, se_muMaxP)
 
 %calc 95% CI
 ci_muMaxP = muMaxP + tinv([0.025,0.975], df_mu(1)) * se_muMaxP;
@@ -178,8 +178,8 @@ rDP = double(subs(numNB, parSym, parValDP));
 se_rDP = double(subs(se_numNB, parSym, parValDP));
 
 %report estimate
-fprintf('#Neighbor DT = %.2g +/- %.2g\n', rDT, se_rDT)
-fprintf('#Neighbor DP = %.3g +/- %.2g\n', rDP, se_rDP)
+% fprintf('#Neighbor DT = %.2g +/- %.2g\n', rDT, se_rDT)
+% fprintf('#Neighbor DP = %.3g +/- %.2g\n', rDP, se_rDP)
 
 
 %calc 95% CI
@@ -209,11 +209,11 @@ fDT = double(subs(fA, parSym, parVal));
 se_fDT = double(subs(se_fA, parSym, parVal));
 
 %report estimate
-fprintf('frequency DT = %.2g +/- %.2g\n', fDT, se_fDT)
+% fprintf('frequency DT = %.2g +/- %.2g\n', fDT, se_fDT)
 
 %calc 95% CI
 ci_fDT = fDT + norminv([0.025,0.975]) * se_fDT;
-fprintf('frequency DT = %.2g (%.2g, %.2g)\n', fDT, ci_fDT)
+fprintf('frequency DT PA = %.2g (%.2g, %.2g)\n', fDT, ci_fDT)
 
 
 %% estimate equilibrium frequency WELL MIXED
@@ -233,7 +233,7 @@ fDT_WM = double(subs(fA_WM, parSym, parVal));
 se_fDT_WM = double(subs(se_fA_WM, parSym, parVal));
 
 %report estimate
-fprintf('frequency DT = %.2g +/- %.2g\n', fDT_WM, se_fDT_WM)
+% fprintf('frequency DT PA = %.2g +/- %.2g\n', fDT_WM, se_fDT_WM)
 
 %calc 95% CI
 ci_fDT_WM = fDT_WM + norminv([0.025,0.975]) * se_fDT_WM;
@@ -255,12 +255,21 @@ fDT_end = frac_in_time(:,index);
 ci_f = @(data) mean(data) + tinv([0.025,0.975],length(data)) * std(data)/sqrt(length(data));
 
 fDT_Data = mean(fDT_end);
+se_fDT_Data = std(fDT_end) / sqrt(length(fDT_end));
 ci_fDT_Data = ci_f(fDT_end);
 
 %calc 95% CI
-fprintf('relFitness data = %.2g (%.2g, %.2g)\n', fDT_Data, ci_fDT_Data)
+fprintf('frequency DT Data = %.2g (%.2g, %.2g)\n', fDT_Data, ci_fDT_Data)
+
+%% Statistics EQ Frequency
+Z_wm_pa_fDT = (fDT_WM - fDT) / (sqrt(se_fDT^2 + se_fDT_WM^2));
+p_wm_pa_fDT = 2*normcdf(-abs(Z_wm_pa_fDT));
+fprintf('frequency DT WM vs PA, p=%.3g, Z-test\n', p_wm_pa_fDT);
 
 
+Z_Data_pa_fDT = (fDT_Data - fDT) / (sqrt(se_fDT^2 + se_fDT_Data^2));
+p_Data_pa_fDT = 2*normcdf(-abs(Z_Data_pa_fDT));
+fprintf('frequency DT Data vs PA, p=%.3g, Z-test\n', p_Data_pa_fDT);
 
 
 %% estimate clustering  
@@ -278,15 +287,15 @@ clusteringDP = double(subs(cluster, parSym, parValDP));
 se_clusteringDP = double(subs(se_cluster, parSym, parValDP));
 
 %report estimate
-fprintf('clustering DT = %.2g +/- %.2g\n', clusteringDT, se_clusteringDT)
-fprintf('clustering DP = %.2g +/- %.2g\n', clusteringDP, se_clusteringDP)
+% fprintf('clustering DT PA = %.2g +/- %.2g\n', clusteringDT, se_clusteringDT)
+% fprintf('clustering DP PA = %.2g +/- %.2g\n', clusteringDP, se_clusteringDP)
 
 %calc 95% CI
 ci_clusteringDT = clusteringDT + norminv([0.025,0.975]) * se_clusteringDT;
 ci_clusteringDP = clusteringDP + norminv([0.025,0.975]) * se_clusteringDP;
 
-fprintf('clustering DT = %.2g (%.2g, %.2g)\n', clusteringDT, ci_clusteringDT)
-fprintf('clustering DP = %.2f (%.2f, %.2f)\n', clusteringDP, ci_clusteringDP)
+fprintf('clustering DT PA = %.2g (%.2g, %.2g)\n', clusteringDT, ci_clusteringDT)
+fprintf('clustering DP PA = %.2f (%.2f, %.2f)\n', clusteringDP, ci_clusteringDP)
 
 
 %% report clustering data
@@ -297,6 +306,8 @@ ci_f = @(data) mean(data) + tinv([0.025,0.975],length(data)) * std(data)/sqrt(le
 clusteringDT_Data = mean(data.clusteringDT);
 clusteringDP_Data = mean(data.clusteringDP);
 
+se_clusteringDT_Data = std(data.clusteringDT)/sqrt(length(data.clusteringDT));
+se_clusteringDP_Data = std(data.clusteringDP)/sqrt(length(data.clusteringDP));
 
 ci_clusteringDT_Data = ci_f(data.clusteringDT);
 ci_clusteringDP_Data = ci_f(data.clusteringDP);
@@ -305,6 +316,25 @@ fprintf('clustering DT data = %.2g (%.2g, %.2g)\n', clusteringDT_Data, ci_cluste
 fprintf('clustering DP data = %.2f (%.2f, %.2f)\n', clusteringDP_Data, ci_clusteringDP_Data)
 
 
+%% Statistics Clustering
+Z_wm_pa_clusterDT = (1 - clusteringDT) / se_clusteringDT;
+p_wm_pa_clusterDT = 2*normcdf(-abs(Z_wm_pa_clusterDT));
+
+Z_wm_pa_clusterDP = (1 - clusteringDP) / se_clusteringDP;
+p_wm_pa_clusterDP = 2*normcdf(-abs(Z_wm_pa_clusterDP));
+
+fprintf('Clustering DT WM vs PA, p=%.3g, Z-test\n', p_wm_pa_clusterDT);
+fprintf('Clustering DP WM vs PA, p=%.3g, Z-test\n', p_wm_pa_clusterDP);
+
+
+Z_Data_pa_clusterDT = (clusteringDT_Data - clusteringDT) / sqrt(se_clusteringDT^2 + se_clusteringDT_Data^2);
+p_Data_pa_clusterDT = 2*normcdf(-abs(Z_Data_pa_clusterDT));
+
+Z_Data_pa_clusterDP = (clusteringDP_Data - clusteringDP) / sqrt(se_clusteringDP^2 + se_clusteringDP_Data^2);
+p_Data_pa_clusterDP = 2*normcdf(-abs(Z_Data_pa_clusterDP));
+
+fprintf('Clustering DT Data vs PA, p=%.3g, Z-test\n', p_Data_pa_clusterDT);
+fprintf('Clustering DP Data vs PA, p=%.3g, Z-test\n', p_Data_pa_clusterDP);
 
 %% estimate relative fitness 
 syms muA muB rA rB se_muA se_muB se_rA se_rB
@@ -339,11 +369,11 @@ relFitness = double(subs(W_rel, parSym, parVal));
 se_relFitness = double(subs(se_W_rel, parSym, parVal));
 
 %report estimate
-fprintf('relFitness = %.2g +/- %.2g\n', relFitness, se_relFitness)
+% fprintf('relFitness = %.2g +/- %.2g\n', relFitness, se_relFitness)
 
 %calc 95% CI
 ci_relFitness = relFitness + norminv([0.025,0.975]) * se_relFitness;
-fprintf('relFitness = %.2g (%.2g, %.2g)\n', relFitness, ci_relFitness)
+fprintf('Relative Fitness PA = %.2g (%.2g, %.2g)\n', relFitness, ci_relFitness)
 
 %process data
 data = load('data_community_productivity.mat');   
@@ -352,13 +382,20 @@ relGrowth = data.muReal ./ data.muRand_mean;
 ci_f = @(data) mean(data) + tinv([0.025,0.975],length(data)) * std(data)/sqrt(length(data));
 
 relFitness_Data = mean(relGrowth);
+se_relFitness_Data = std(relGrowth)/sqrt(length(relGrowth));
 ci_relFitness_Data = ci_f(relGrowth);
 
 %calc 95% CI
-fprintf('relFitness data = %.2g (%.2g, %.2g)\n', relFitness_Data, ci_relFitness_Data)
+fprintf('Relative Fitness Data = %.2g (%.2g, %.2g)\n', relFitness_Data, ci_relFitness_Data)
 
+%% Statistics relative fitness
+Z_wm_pa_relFitness = (1 - relFitness) / se_relFitness;
+p_wm_pa_relFitness = 2*normcdf(-abs(relFitness));
+fprintf('Relative Fitness WM vs PA, p=%.3g, Z-test\n', p_wm_pa_relFitness);
 
-
+Z_Data_pa_relFitness = (relFitness_Data - relFitness) / sqrt(se_relFitness^2 + se_relFitness_Data^2);
+p_Data_pa_relFitness = 2*normcdf(-abs(relFitness));
+fprintf('Relative Fitness Data vs PA, p=%.3g, Z-test\n', p_Data_pa_relFitness);
 
 %% store paramters
 varNames = {'cell_l','cell_w','cell_dens',...

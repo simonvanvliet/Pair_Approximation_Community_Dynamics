@@ -1,28 +1,28 @@
 # Code belonging to: Global dynamics of microbial communities emerge from local interaction rules
-## Simon van Vliet, Christoph Hauert, Martin Ackermann, and Alma Dal Co
+## Simon van Vliet, Christoph Hauert, Kyle Fridberg, Martin Ackermann, and Alma Dal Co
 ### simon.vanvliet@unibas.ch or alma.dalco@gmail.com
 
 ## Contents
 ### Main folder
-* PairApprox_200308_General.nb 
+* PairApprox_200308_General.nb
   * Mathematica notebook containing derivation of analytical expressions
 * explore_model_temporal_dynamics.m
   * Matlab code to numerically solve Pair Approximation dynamical equations
 
 ### Matlab_Figure_Code folder
 Contains Matlab scripts (.m) and data-files (.mat) to reproduce all main-text figures
-* make_figure_X.m 
+* make_figure_X.m
   * run code to recreate figure X
 * get_model_parameters_from_data.m
   * code that estimates pair-approximation parameters from measured local rules
   * compares model predictions to data values
   * output stored as: parameters_DP_DT_community_from_data.mat
 * get_model_parameters_from_literature.m
-  * code estimates pair-approximation parameters from biophysical parameters taken from literature 
+  * code estimates pair-approximation parameters from biophysical parameters taken from literature
   * compares model predictions to data values
   * output stored as: parameters_DP_DT_community_from_literature.mat
 * simulation_CA_*.mat
-  * Data files containing output from cellular automaton simulations 
+  * Data files containing output from cellular automaton simulations
 * data_*.mat
   * Data files containing partly-processed experimental data
 * ode_pair_approximation.m
@@ -36,6 +36,10 @@ Contains Matlab script to solve individual based biophysical model on 2D and 3D 
 Run code in following order to reproduce Fig S1
 1. InteractionRange_2Dvs3D_RunModel.m
 2. InteractionRange_2Dvs3D_ProcessModel.m
-3. InteractionRange_2Dvs3D_PlotModel.m 
+3. InteractionRange_2Dvs3D_PlotModel.m
 
 The remaining code ("SteadyState_3D_*.m") implements the 3D boundary-value problem that is used to find steady-state growth in 3D grid of cells. This code is called by the functions above, and no direct user interaction is required.
+
+### Python_CA_Code
+Contains python script to run CA simulation.
+TwoCellsAutomaton_fig6C.py

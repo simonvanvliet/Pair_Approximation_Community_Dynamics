@@ -167,12 +167,12 @@ idx = 3;
 ax(idx)      =  axes(hFig);
 
 %load data
-data = load('simulation_CA_dynamics.mat');
+data = load('simulation_CA_dynamics_rev.mat');
 data = data.data;
 
 data.Y   = {data.DTinTime, nanmean(data.DTinTime, 2)};
-data.X   = {(0:100:100*(size(data.Y{1},1))-1)'/1000,...
-                (0:100:100*(size(data.Y{1},1))-1)'/1000};
+data.X   = {((1:size(data.Y{1},1))-1)'/100,...
+                ((1:size(data.Y{1},1))-1)'/100};
     
 fg = struct();
 fg.LineStyle                    = {'-','-'};
@@ -196,11 +196,11 @@ end
        
 make_figure_makeAxisNice(ax(idx), plotPos{idx}, settings)
 
-ax(idx).XLim            = [0 400];
+ax(idx).XLim            = [0 40];
 ax(idx).YLim            = [0 1];
-ax(idx).XTick           = [0 200 400];    
+ax(idx).XTick           = [0 20 40];    
 ax(idx).YTick           = [0 0.5 1];
-ax(idx).XLabel.String   = 'time [a.u.]';
+ax(idx).XLabel.String   = 'time steps x1000';
 ax(idx).YLabel.String   = 'frequency \DeltaT';
 
 
@@ -215,7 +215,7 @@ medWidth = 0.4;
 
 %get data     
 %load data
-dataCA = load('simulation_CA_dynamics.mat');
+dataCA = load('simulation_CA_steady_state_rev.mat');
 dataCA = dataCA.data;
 
 data.Y   = {endPointData, dataCA.PDT_end};
@@ -322,10 +322,6 @@ ax(idx)      =  axes(hFig);
 %get measured data
 load('data_cell_clustering.mat');
 
-%load CA data
-dataCA = load('simulation_CA_steady_state.mat');
-dataCA = dataCA.data;
-
 randSpread = 0.4;
 medWidth = 0.4;
                           
@@ -399,7 +395,7 @@ make_figure_makeAxisNice(ax(idx), plotPos{idx}, settings)
 
 ax(idx).XLim            = [0.5 4.5];
 ax(idx).YLim            = [0 1.1];
-ax(idx).XTick           = [1 2 3 4];   
+ax(idx).XTick           = [1 2 3 4 5 6];   
 ax(idx).XTickLabel      = {'Data','PA','Data','PA'};   
 
 ax(idx).YTick           = [0 0.5 1];
@@ -407,9 +403,8 @@ ax(idx).XLabel.String   = '';
 ax(idx).YLabel.String   = 'local/global frequency';
 
 %report results
-dataSet = {data.clusteringDT, data.clusteringDP, dataCA.clusteringDT, dataCA.clusteringDP};
-referenceSet = {parametersModel.clusteringDT, parametersModel.clusteringDP,...
-    parametersModel.clusteringDT, parametersModel.clusteringDP};
+dataSet = {data.clusteringDT, data.clusteringDP};
+referenceSet = {parametersModel.clusteringDT, parametersModel.clusteringDP};
 name = {'DT_Data', 'DP_Data','DT_CA', 'DP_CA'};
 
 fprintf('Clustering:\n')
@@ -438,10 +433,6 @@ ax(idx)      =  axes(hFig);
 
 %get measured data
 data = load('data_community_productivity.mat');
-
-%load CA data
-dataCA = load('simulation_CA_steady_state.mat');
-dataCA = dataCA.data;
 
 
 %get model prediction
@@ -515,7 +506,7 @@ make_figure_makeAxisNice(ax(idx), plotPos{idx}, settings)
 
 ax(idx).XLim            = [0.5 2.5];
 ax(idx).YLim            = [0 1.2];
-ax(idx).XTick           = [1 2];   
+ax(idx).XTick           = [1 2 3];   
 ax(idx).XTickLabel      = {'Data','PA'};   
 
 ax(idx).YTick           = [0 0.5 1];
@@ -524,8 +515,8 @@ ax(idx).YLabel.String   = {'community productivity','realtive to well-mixed'};
 
 
 %report results
-dataSet = {data.muReal ./ data.muRand_mean, dataCA.relativeFitness};
-referenceSet = {parametersModel.relFitness, parametersModel.relFitness};
+dataSet = {data.muReal ./ data.muRand_mean};
+referenceSet = {parametersModel.relFitness};
 name = {'Data', 'CA'};
 
 fprintf('Relative fitness:\n')
